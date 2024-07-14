@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: mainlb
-  namespace: quiz
   annotations:
     alb.ingress.kubernetes.io/scheme: internet-facing
     alb.ingress.kubernetes.io/target-type: ip
@@ -10,7 +9,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: quizapp.cloudcorehub.com
+    - host: 
       http:
         paths:
           - path: /api/questions
