@@ -27,7 +27,7 @@ spec:
         image: ibrahimmohamedzaghloul/frontend-js:latest
         env:
         - name: VITE_REACT_APP_API_URL
-          value: "http://backend-service:3000/api/questions"
+          value: "http://app.quiz-app-ibrahim.com/api/questions"
         ports:
         - containerPort: 8080
 ---

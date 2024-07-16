@@ -9,7 +9,7 @@ metadata:
 spec:
   ingressClassName: alb
   rules:
-    - host: 
+    - host: app.quiz-app-ibrahim.com
       http:
         paths:
           - path: /api/questions

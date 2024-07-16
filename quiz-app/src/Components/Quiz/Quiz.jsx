@@ -23,7 +23,7 @@ const Quiz = () => {
       if (startQuiz) {
         try {
           // const apiUrl = import.meta.env.VITE_REACT_APP_API_URL || 'http://localhost:3000/api/questions';
-          const apiUrl = "http://k8s-default-mainlb-820f2c2f5a-1077703022.us-east-1.elb.amazonaws.com/api/questions"
+          const apiUrl = "http://app.quiz-app-ibrahim.com/api/questions"
           const response = await fetch(apiUrl);
           if (!response.ok) throw new Error("Failed to fetch");
           let questions = await response.json();
