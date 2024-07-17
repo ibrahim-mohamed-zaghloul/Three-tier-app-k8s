@@ -293,7 +293,8 @@ jobs:
       - name: Push changes
         uses: ad-m/github-push-action@v0.6.0
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }} 
+          github_token: ${{ secrets._GITHUB_TOKEN }}
+          branch: main  # Update the branch name to 'main' 
           
       - name: Checkout code
         uses: actions/checkout@v3
