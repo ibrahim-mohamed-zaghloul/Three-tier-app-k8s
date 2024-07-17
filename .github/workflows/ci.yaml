@@ -282,8 +282,8 @@ jobs:
       - name: Change image version in frontend and backend deployment files
         run: |
           echo "change image version .."
-          sed -i "s|image:.*frontend-js:.*|image: ${{ secrets.DOCKER_USERNAME }}:${{ github.run_number }}|g" path/to/frontend.yaml
-          sed -i "s|image:.*backend-api:.*|image: ${{ secrets.DOCKER_USERNAME }}:${{ github.run_number }}|g" path/to/backend.yaml
+          sed -i "s|image:.*frontend-js:.*|image: ${{ secrets.DOCKER_USERNAME }}:${{ github.run_number }}|g" kubernetes-manifest/frontend.yaml
+          sed -i "s|image:.*backend-api:.*|image: ${{ secrets.DOCKER_USERNAME }}:${{ github.run_number }}|g" kubernetes-manifest/backend.yaml
 
       - name: Commit changes
         run: |
