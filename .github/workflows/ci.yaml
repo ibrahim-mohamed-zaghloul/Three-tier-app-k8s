@@ -270,7 +270,7 @@ jobs:
     needs: [backend-image, frontend-image]
     runs-on: ubuntu-latest
     permissions:
-    contents: write
+      contents: write
 
     steps:
       - name: Checkout code
