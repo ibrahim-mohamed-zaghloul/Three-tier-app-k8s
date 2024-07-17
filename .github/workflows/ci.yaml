@@ -172,9 +172,9 @@ jobs:
     - name: Build and push backend Docker image
       working-directory: ./quiz-app
       run: |
-        docker build . -t ${{ secrets.DOCKER_USERNAME }}/frontend-js
+        docker build . -t ${{ secrets.DOCKER_USERNAME }}/frontend-js:${{ github.run_number }}
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin 
-        docker push ${{ secrets.DOCKER_USERNAME }}/frontend-js    
+        docker push ${{ secrets.DOCKER_USERNAME }}/frontend-js:${{ github.run_number }}
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
@@ -220,9 +220,9 @@ jobs:
     - name: Build and push backend Docker image
       working-directory: ./backend
       run: |
-        docker build . -t ${{ secrets.DOCKER_USERNAME }}/backend-api
+        docker build . -t ${{ secrets.DOCKER_USERNAME }}/backend-api:${{ github.run_number }}
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin 
-        docker push ${{ secrets.DOCKER_USERNAME }}/backend-api    
+        docker push ${{ secrets.DOCKER_USERNAME }}/backend-api::${{ github.run_number }}   
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
@@ -282,8 +282,8 @@ jobs:
       - name: Change image version in frontend and backend deployment files
         run: |
           echo "change image version .."
-          sed -i "s|image:.*frontend-js:.*|image: ${{ secrets.DOCKER_USERNAME }}:${{ github.run_number }}|g" kubernetes-manifest/frontend.yaml
-          sed -i "s|image:.*backend-api:.*|image: ${{ secrets.DOCKER_USERNAME }}:${{ github.run_number }}|g" kubernetes-manifest/backend.yaml
+          sed -i "s|image:.*frontend-js:.*|image: ${{ secrets.DOCKER_USERNAME }}/frontend-js:${{ github.run_number }}|g" kubernetes-manifest/frontend.yaml
+          sed -i "s|image:.*backend-api:.*|image: ${{ secrets.DOCKER_USERNAME }}/backend-api:${{ github.run_number }}|g" kubernetes-manifest/backend.yaml
 
       - name: Commit changes
         run: |
