@@ -222,12 +222,12 @@ jobs:
       run: |
         docker build . -t ${{ secrets.DOCKER_USERNAME }}/backend-api:${{ github.run_number }}
         echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin 
-        docker push ${{ secrets.DOCKER_USERNAME }}/backend-api::${{ github.run_number }}   
+        docker push ${{ secrets.DOCKER_USERNAME }}/backend-api:${{ github.run_number }}   
 
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/backend-api::${{ github.run_number }'
+        image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/backend-api:${{ github.run_number }'
         format: 'sarif'
         output: 'trivy-results.sarif'
         severity: 'CRITICAL,HIGH' 
