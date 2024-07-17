@@ -266,3 +266,55 @@ jobs:
         with:
           file: kubernetes-manifest/
           args: --severity-threshold=high
+
+  update-images-at-manifest-files:
+    needs: [k8s-manifest-scan, backend-security, frontend-security]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config user.email "ebrahem.mohamedzaghloul@gmail.com"
+          git config user.name "ibrahimzaghloul"
+
+      - name: Change image version in frontend and backend deployment files
+        run: |
+          echo "change image version .."
+          sed -i "s|image:.*frontend-js:.*|image: ${{ secrets.DOCKER_USERNAME }}:${{ github.run_number }}|g" path/to/frontend-deployment.yaml
+          sed -i "s|image:.*backend-api:.*|image: ${{ secrets.DOCKER_USERNAME }}:${{ github.run_number }}|g" path/to/backend-deployment.yaml
+
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "Update deployment image to version ${{ github.run_number }}"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }} 
+          
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config user.email "abanobmorkos10@gmail.com"
+          git config user.name "abanobmorkosgad"
+
+      - name: Change image version in frontend and backend deployment files
+        run: |
+          echo "change image version .."
+          sed -i "s|image:.*frontend-js:.*|image: ${{ secrets.REPO_NAME_FRONTEND }}:${{ secrets.IMAGE_VERSION }}|g" path/to/frontend-deployment.yaml
+          sed -i "s|image:.*backend-api:.*|image: ${{ secrets.REPO_NAME_BACKEND }}:${{ secrets.IMAGE_VERSION }}|g" path/to/backend-deployment.yaml
+
+      - name: Commit changes
+        run: |
+          git add .
+          git commit -m "Update deployment image to version ${{ github.run_number }}"
+
+      - name: Push changes
+        uses: ad-m/github-push-action@v0.6.0
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
