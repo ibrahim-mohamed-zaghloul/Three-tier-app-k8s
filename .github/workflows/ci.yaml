@@ -7,157 +7,157 @@ on:
 
 jobs:
   # frontend-test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./quiz-app
-    strategy:
-      matrix:
-        node-version: [20.x]
-        architecture: [x64]
-    steps:
-      - name: Check-out git repository  
-        uses: actions/checkout@v4
+    # runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: ./quiz-app
+    # strategy:
+    #   matrix:
+    #     node-version: [20.x]
+    #     architecture: [x64]
+    # steps:
+    #   - name: Check-out git repository  
+    #     uses: actions/checkout@v4
 
-      - name: USE NODEJS ${{ matrix.node-version }} - ${{ matrix.architecture }}
-        uses: actions/setup-node@v4
+    #   - name: USE NODEJS ${{ matrix.node-version }} - ${{ matrix.architecture }}
+    #     uses: actions/setup-node@v4
 
-      - name: Install project dependencies 
-        working-directory: ./quiz-app
-        run: |
-          npm i
-          npm run lint
-          npm install --save-dev --save-exact prettier
-          npm run prettier
-          npm test
-        env:
-          CI: true 
+    #   - name: Install project dependencies 
+    #     working-directory: ./quiz-app
+    #     run: |
+    #       npm i
+    #       npm run lint
+    #       npm install --save-dev --save-exact prettier
+    #       npm run prettier
+    #       npm test
+    #     env:
+    #       CI: true 
 
-      - name: Build
-        run: npm run build
-        working-directory: ./quiz-app
+    #   - name: Build
+    #     run: npm run build
+    #     working-directory: ./quiz-app
 
-              # Setup sonar-scanner
-      - name: Setup SonarQube
-        uses: warchant/setup-sonar-scanner@v8
+    #           # Setup sonar-scanner
+    #   - name: Setup SonarQube
+    #     uses: warchant/setup-sonar-scanner@v8
 
-      - name: Analyze with SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets._GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: quiz-app
-          args: >
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-            -Dsonar.host.url=${{ secrets.SONAR_URL }}
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.sources=src/
-            -Dsonar.verbose=true
+    #   - name: Analyze with SonarCloud
+    #     uses: sonarsource/sonarcloud-github-action@master
+    #     env:
+    #       GITHUB_TOKEN: ${{ secrets._GITHUB_TOKEN }}
+    #       SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+    #     with:
+    #       projectBaseDir: quiz-app
+    #       args: >
+    #         -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+    #         -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+    #         -Dsonar.host.url=${{ secrets.SONAR_URL }}
+    #         -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+    #         -Dsonar.sources=src/
+    #         -Dsonar.verbose=true
         
   # backend-test:
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-    strategy:
-      matrix:
-        node-version: [20.x]
-        architecture: [x64]
-    steps:
-      - name: Check-out git repository  
-        uses: actions/checkout@v4
+    # runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: ./backend
+    # strategy:
+    #   matrix:
+    #     node-version: [20.x]
+    #     architecture: [x64]
+    # steps:
+      # - name: Check-out git repository  
+      #   uses: actions/checkout@v4
 
-      - name: USE NODEJS ${{ matrix.node-version }} - ${{ matrix.architecture }}
-        uses: actions/setup-node@v4
+      # - name: USE NODEJS ${{ matrix.node-version }} - ${{ matrix.architecture }}
+      #   uses: actions/setup-node@v4
 
-      - name: Install project dependencies 
-        working-directory: ./backend
-        run: |
-          npm i
-          npm run lint
-          npm install --save-dev --save-exact prettier
-          npm run prettier
-          npm test
-        env:
-          CI: true 
+      # - name: Install project dependencies 
+      #   working-directory: ./backend
+      #   run: |
+      #     npm i
+      #     npm run lint
+      #     npm install --save-dev --save-exact prettier
+      #     npm run prettier
+      #     npm test
+      #   env:
+      #     CI: true 
 
-              # Setup sonar-scanner
-      - name: Setup SonarQube
-        uses: warchant/setup-sonar-scanner@v8
+      #         # Setup sonar-scanner
+      # - name: Setup SonarQube
+      #   uses: warchant/setup-sonar-scanner@v8
 
-      - name: Analyze with SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          GITHUB_TOKEN: ${{ secrets._GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          projectBaseDir: backend
-          args: >
-            -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
-            -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
-            -Dsonar.host.url=${{ secrets.SONAR_URL }}
-            -Dsonar.login=${{ secrets.SONAR_TOKEN }}
-            -Dsonar.sources=.
-            -Dsonar.verbose=true
+      # - name: Analyze with SonarCloud
+      #   uses: sonarsource/sonarcloud-github-action@master
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets._GITHUB_TOKEN }}
+      #     SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+      #   with:
+      #     projectBaseDir: backend
+      #     args: >
+      #       -Dsonar.organization=${{ secrets.SONAR_ORGANIZATION }}
+      #       -Dsonar.projectKey=${{ secrets.SONAR_PROJECT_KEY }}
+      #       -Dsonar.host.url=${{ secrets.SONAR_URL }}
+      #       -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+      #       -Dsonar.sources=.
+      #       -Dsonar.verbose=true
           
 
   # frontend-security:
-    needs: frontend-test
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./quiz-app
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    # needs: frontend-test
+    # runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: ./quiz-app
+    # steps:
+    #   - uses: actions/checkout@master
+    #   - name: Run Snyk to check for vulnerabilities
+    #     uses: snyk/actions/node@master
+    #     continue-on-error: true # To make sure that SARIF upload gets called
+    #     env:
+    #       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           
-      - name: Install Snyk CLI
-        uses: snyk/actions/setup@master
-        with:
-          version: latest
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  
+    #   - name: Install Snyk CLI
+    #     uses: snyk/actions/setup@master
+    #     with:
+    #       version: latest
+    #     env:
+    #       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}  
          
-      - name: Snyk Authenticate    
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+    #   - name: Snyk Authenticate    
+    #     run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      - name: Snyk Code Test
-        run: snyk code test --all-projects
-        continue-on-error: true
+    #   - name: Snyk Code Test
+    #     run: snyk code test --all-projects
+    #     continue-on-error: true
 
   # backend-security:
-    needs: backend-test
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./backend
-    steps:
-      - uses: actions/checkout@master
-      - name: Run Snyk to check for vulnerabilities
-        uses: snyk/actions/node@master
-        continue-on-error: true # To make sure that SARIF upload gets called
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    # needs: backend-test
+    # runs-on: ubuntu-latest
+    # defaults:
+    #   run:
+    #     working-directory: ./backend
+    # steps:
+    #   - uses: actions/checkout@master
+    #   - name: Run Snyk to check for vulnerabilities
+    #     uses: snyk/actions/node@master
+    #     continue-on-error: true # To make sure that SARIF upload gets called
+    #     env:
+    #       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
          
-      - name: Install Snyk CLI
-        uses: snyk/actions/setup@master
-        with:
-          version: latest
-        env:
-          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+    #   - name: Install Snyk CLI
+    #     uses: snyk/actions/setup@master
+    #     with:
+    #       version: latest
+    #     env:
+    #       SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
           
-      - name: Snyk Authenticate    
-        run: snyk auth ${{ secrets.SNYK_TOKEN }}
+    #   - name: Snyk Authenticate    
+    #     run: snyk auth ${{ secrets.SNYK_TOKEN }}
 
-      - name: Snyk Code Test
-        run: snyk code test --all-projects
-        continue-on-error: true
+    #   - name: Snyk Code Test
+    #     run: snyk code test --all-projects
+    #     continue-on-error: true
 
   frontend-image:
     # needs: frontend-security
