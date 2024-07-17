@@ -179,7 +179,7 @@ jobs:
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/frontend-js'
+        image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/frontend-js:${{ github.run_number }}'
         format: 'sarif'
         output: 'trivy-results.sarif'
         severity: 'CRITICAL,HIGH'
@@ -227,7 +227,7 @@ jobs:
     - name: Run Trivy vulnerability scanner
       uses: aquasecurity/trivy-action@master
       with:
-        image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/backend-api'
+        image-ref: 'docker.io/${{ secrets.DOCKER_USERNAME }}/backend-api::${{ github.run_number }'
         format: 'sarif'
         output: 'trivy-results.sarif'
         severity: 'CRITICAL,HIGH' 
@@ -318,4 +318,3 @@ jobs:
         uses: ad-m/github-push-action@v0.6.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          
