@@ -24,7 +24,7 @@ spec:
     spec:
       containers:
       - name: frontend
-        image: ibrahimmohamedzaghloul/frontend-js:36
+        image: ibrahimmohamedzaghloul/frontend-js:37
         env:
         - name: VITE_REACT_APP_API_URL
           value: "http://k8s-default-mainlb-820f2c2f5a-1139287435.us-east-1.elb.amazonaws.com/api/questions"
